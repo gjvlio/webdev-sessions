@@ -43,34 +43,43 @@
     
     <div class="container border">
         <div class="row">
-            <div class="col-lg-6 border">
-                <div class="card">
-                    <img src="rivera_laravel\resources\images\yum.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-6 border">
-                <div class="card">
-                    <img src="rivera_laravel\resources\images\dog.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
+            <div class="col-lg-6 border">col 6</div>
+            <div class="col-lg-6 border">col 6</div>
         </div>
 
         <div class = "row">
-            <div class="col-lg-4 col-md-6 col-sm-4 border"></div>
-            <div class="col-lg-4 col-md-6 col-sm-4 border"> col 4 </div>
-            <div class="col-lg-4 col-md-6 col-sm-4 border"> col 4 </div>
+            <div class="col-lg-4 col-md-6 col-sm-4 border">
+                <div class="card">
+                    <img src="{{ asset('images/chiikawa.jpg') }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Chiikawa</h5>
+                            <p class="card-text">A timid, gentle, and easily frightened little creature who tries their absolute best to work hard and support their friends despite crying often.</p>
+                            <a href="#" class="btn btn-primary">Visit Chiikawa here</a>
+                        </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-4 border">
+                <div class="card">
+                    <img src="{{ asset('images/hachiware.jpg') }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Hachiware</h5>
+                            <p class="card-text">An optimistic, resourceful, and chatty cat-like companion who frequently acts as the group's spokesperson and always looks on the bright side.</p>
+                            <a href="#" class="btn btn-primary">Visit Hachiware here</a>
+                        </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-4 border">
+                <div class="card">
+                    <img src="{{ asset('images/usagi.jpg') }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Usagi </h5>
+                            <p class="card-text">A chaotic, fiercely capable, and deeply unpredictable yellow rabbit who communicates almost entirely through loud, bizarre noises like "Yah!" and "Ura!".</p>
+                            <a href="#" class="btn btn-primary">Visit Usagi here</a>
+                        </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </body>
 
 <style>
