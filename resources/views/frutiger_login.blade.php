@@ -1,23 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frutiger</title>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
-<body>
+@extends('common.main')
+@section('title', 'Frutiger!')
+@section('content')
+
+<div class="main-content-wrapper">
     <div class="row m-2 m-md-3 w-100 max-w-100 align-items-start g-2 g-md-3">
-        
         <div class="col-12 col-md-4 col-lg-4 aero-box mb-3 mb-md-0">
             <h1 class="title mb-3 text-start"><b>Login</b></h1>
-            
             <form class="aero-form text-start">
                 <div class="mb-2">
+                    <i class="bi bi-envelope"></i>
                     <label for="email" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Email:</label>
                     <input type="email" class="form-control aero-input" id="email" placeholder="Enter your email">
                 </div>
                 <div class="mb-3">
+                    <i class="bi bi-asterisk"></i>
                     <label for="password" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Password:</label>
                     <input type="password" class="form-control aero-input" id="password" placeholder="Enter password">
                 </div>
@@ -97,8 +93,7 @@
             </div>
         </div>
     </div>
-</body>
-
+</div>
 <style>
 @font-face {
     font-family: 'Basenji';
@@ -109,13 +104,12 @@
 
 body {
   margin: 0;
+  padding: 0;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 12px 0;
-  background: radial-gradient(circle at center, #a1ebff 0%, #4da5c2 100%);
+  flex-direction: column; 
   
+  background: radial-gradient(circle at center, #a1ebff 0%, #4da5c2 100%);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #1a4d66;
 
@@ -125,6 +119,14 @@ body {
   background-size: cover; 
   background-position: center; 
   background-attachment: fixed;
+}
+
+.main-content-wrapper {
+  padding: 12px 0;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .aero-box {
@@ -318,4 +320,5 @@ body {
     }
 }
 </style>
-</html>
+
+@endsection

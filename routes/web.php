@@ -7,6 +7,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\FrutigerController;
+use App\Http\Controllers\PlaygroundController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,7 +40,17 @@ Route::get('calculate/{num1}/{num2}', [CalculateController::class, 'index'])->na
 
 // -------------------- FRUTIGER -------------------------
 
-Route::get('frutiger', [FrutigerController::class, 'displayFrutiger'])->name('frutiger');
+Route::group(['prefix' => 'frutiger'], function(){
+    
+    Route::get('/', [FrutigerController::class, 'displayFrutiger'])->name('displayMain');
+    Route::get('register', [FrutigerController::class, 'register'])->name('displayRegister');
+    Route::post('registerUser', [FrutigerController::class, 'addUser'])->name('addUser');
+
+});
+
+// -------------------- SANDBOX -------------------------
+
+Route::get('play', [PlaygroundController::class, 'display'])->name('sandbox');
 
 // ---------------------------------------------------------
 

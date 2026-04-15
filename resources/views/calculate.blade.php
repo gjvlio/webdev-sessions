@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
-<body style = "color: #546B41; font-family: sans-serif; background-color: #FFF8EC!important", class = "bg-primary">
+@extends('common.main')
+@section('title', 'Calculate')
+@section('content')
     <div class = "container">
         <div class = "background-calc">
             <div class="row">
@@ -80,7 +74,6 @@
             </div>
         </div>
     </div>
-</body>
 
 <style>
     .background-calc {
@@ -117,4 +110,4 @@
 
 </style>
 
-</html>
+@endsection
