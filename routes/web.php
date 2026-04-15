@@ -6,6 +6,7 @@ use App\Http\Controllers\CalculateController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FallbackController;
+use App\Http\Controllers\FrutigerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,6 +36,10 @@ Route::group(['prefix' => 'user'], function(){
 // -------------------- CALCULATE -------------------------
 
 Route::get('calculate/{num1}/{num2}', [CalculateController::class, 'index'])->name('calculateNums');
+
+// -------------------- FRUTIGER -------------------------
+
+Route::get('frutiger', [FrutigerController::class, 'displayFrutiger'])->name('frutiger');
 
 // ---------------------------------------------------------
 
