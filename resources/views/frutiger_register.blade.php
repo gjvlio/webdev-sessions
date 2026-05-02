@@ -7,6 +7,13 @@
         <div class="col-12 col-md-12 col-lg-12 aero-box mb-4 mb-md-0">
             <h1 class="title mb-3 text-center"><b>Register new account</b></h1>
             <p><i>Join the community of this aesthetic's enthusiasts</i></p>
+                @if($errors -> any())
+                    @foreach ( $errors -> all() as $error )
+                        <div class="alert alert-danger" role="alert">
+                            {{ $error }}
+                        </div>
+                    @endforeach
+                @endif
             <form class="aero-form text-start" method="POST" action="{{route('addUser')}}">
             @csrf
 
