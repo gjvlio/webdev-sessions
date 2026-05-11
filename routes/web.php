@@ -43,8 +43,10 @@ Route::get('calculate/{num1}/{num2}', [CalculateController::class, 'index'])->na
 Route::group(['prefix' => 'frutiger'], function(){
     
     Route::get('/', [FrutigerController::class, 'displayFrutiger'])->name('displayMain');
-    Route::get('register', [FrutigerController::class, 'register'])->name('displayRegister');
+    Route::get('register', [FrutigerController::class, 'displayRegister'])->name('displayRegister');
     Route::post('registerUser', [FrutigerController::class, 'addUser'])->name('addUser');
+    Route::get('post', [FrutigerController::class, 'displayPost'])->name('displayPost');
+    Route::post('addPost', [FrutigerController:: class, 'addPost'])->name('addPost');
 
 });
 

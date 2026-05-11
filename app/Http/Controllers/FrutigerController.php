@@ -12,7 +12,7 @@ class FrutigerController extends Controller
         return view('frutiger_login');
     }
 
-    public function register(){
+    public function displayRegister(){
         return view('frutiger_register');
     }
 
@@ -39,6 +39,28 @@ class FrutigerController extends Controller
         Log::info($request -> password);
         
         $result = DB::table('users')->get();
+        return $result;
+    }
+
+    public function displayPost(){
+        $posts = DB::table('post')->get();
+        return view('frutiger_postform', compact('posts'));
+    }
+
+    public function addPost(Request $request){
+        $request -> validate([
+            'post_title' => ['required', 'min:2'],
+            'post_description' => ['required'],
+        ], [
+            'post_title.required' => 'You need to include a title for your post',
+            'post_description.required' => 'You need to include a description for your post',
+        ]);
+
+        Log::info("========== POST ==========");
+        Log::info($request -> post_title);
+        Log::info($request -> post_description);
+        
+        $result = DB::table('post')->get();
         return $result;
     }
 }

@@ -1,4 +1,4 @@
-<footer class="bg-light text-dark text-center p-3">
+<footer class="aero-footer text-dark text-center p-3">
 <figure>
       <blockquote class="blockquote">
         <p>Ako ang may hawak ng beat.</p>

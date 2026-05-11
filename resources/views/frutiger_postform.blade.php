@@ -3,10 +3,12 @@
 @section('content')
 
 <div class="main-content-wrapper">
-    <div class="row mx-0 my-2 my-md-3 align-items-start g-2 g-md-3">
-        <div class="col-12 col-md-12 col-lg-12 aero-box mb-4 mb-md-0">
-            <h1 class="title mb-3 text-center"><b>Register new account</b></h1>
-            <p><i>Join the community of this aesthetic's enthusiasts</i></p>
+    <div class="row mx-0 my-2 my-md-3 align-items-start justify-content-center gy-3 w-100">
+
+        {{-- Form --}}
+        <div class="col-12 col-lg-4 aero-box mb-3 mb-lg-0 me-lg-3">
+            <h1 class="title mb-3 text-center"><b>Post a thought...</b></h1>
+            <p><i>What are you thinking right now? Share it to the community!</i></p>
                 @if($errors -> any())
                     @foreach ( $errors -> all() as $error )
                         <div class="alert alert-danger" role="alert">
@@ -14,40 +16,51 @@
                         </div>
                     @endforeach
                 @endif
-            <form class="aero-form text-start" method="POST" action="{{route('addUser')}}">
+            <form class="aero-form text-start" method="POST" action="{{route('addPost')}}">
             @csrf
 
                 <div class="mb-3">
-                    <i class="bi bi-person"></i>
-                    <label for="text" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">First name:</label>
-                    <input type="text" class="form-control aero-input" id="email" placeholder="Enter your first name" name="first_name">
+                    <i class="bi bi-cursor-text"></i>
+                    <label for="text" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Title:</label>
+                    <input type="text" class="form-control aero-input" id="email" placeholder="Start with a punch!" name="post_title">
                 </div>
                 <div class="mb-3">
-                    <i class="bi bi-person"></i>
-                    <label for="text" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Middle name:</label>
-                    <input type="text" class="form-control aero-input" id="email" placeholder="Enter your middle name" name="middle_name">
-                </div>
-                <div class="mb-3">
-                    <i class="bi bi-person"></i>
-                    <label for="text" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Last name:</label>
-                    <input type="text" class="form-control aero-input" id="email" placeholder="Enter your last name" name="last_name">
-                </div>
-                <div class="mb-3">
-                    <i class="bi bi-envelope"></i>
-                    <label for="email" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Email address:</label>
-                    <input type="email" class="form-control aero-input" id="email" placeholder="Enter your email" name="email">
-                </div>
-                <div class="mb-3">
-                    <i class="bi bi-asterisk"></i>
-                    <label for="password" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Password:</label>
-                    <input type="password" class="form-control aero-input" id="password" placeholder="Enter password" name="password">
+                    <i class="bi bi-chat-quote-fill"></i>
+                    <label for="textarea" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Description:</label>
+                    <textarea class="form-control aero-input" id="description" placeholder="Erm... I think I really love green" name="post_description" rows="5" style="resize: vertical;"></textarea>
                 </div>
                 <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
-                    <button type="submit" class="btn aero-btn">Register account</button>
+                    <button type="submit" class="btn aero-btn">Submit post</button>
                     <a href="#" class="aero-link">Need help?</a>
                 </div>
             </form>
         </div>
+        <div class="col-12 col-lg-7 aero-box ms-lg-3">
+            <h2 class="title mb-3 text-center"><b>Community Posts</b></h2>
+            <div class="table-responsive">
+                <table class="table aero-table w-100">
+                    <thead>
+                        <tr>
+                            <th><span class="aero-th-pill">Title</span></th>
+                            <th><span class="aero-th-pill">Description</span></th>
+                            <th><span class="aero-th-pill">Created By</span></th>
+                            <th><span class="aero-th-pill">Status</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($posts as $post)
+                        <tr>
+                            <td>{{ $post->title }}</td>
+                            <td>{{ $post->description }}</td>
+                            <td>{{ $post->created_by }}</td>
+                            <td>{{ $post->status }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 </div>
 <style>
@@ -106,9 +119,7 @@ body {
   padding: 24px 22px;
   border-radius: 16px;
   text-align: center;
-  width: 40vw;
-  max-width: 40vw;
-  margin-top: 80px;
+  margin-top: 40px;
   
   background: linear-gradient(
     180deg, 
@@ -226,36 +237,60 @@ body {
 
 .aero-table {
     border-collapse: separate;
-    border-spacing: 0;
+    border-spacing: 0 6px;
     color: #1a4d66;
+    width: 100%;
+}
+
+.aero-table thead th {
+    background: transparent;
+    border: none;
+    padding-bottom: 12px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .aero-table td, .aero-table th {
-    background-color: transparent !important; 
+    background-color: transparent !important;
 }
 
 .aero-table tbody tr td {
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    border-top: 1px solid rgba(255, 255, 255, 0.8); 
-    background: rgba(255, 255, 255, 0.15);
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.25);
+    border-top: 1px solid rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.92rem;
 }
 
-.aero-table tbody tr:first-child td {
-    border-top: none;
+.aero-table tbody tr td:first-child {
+    border-left: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 10px 0 0 10px;
+    font-weight: 600;
+}
+
+.aero-table tbody tr td:last-child {
+    border-right: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 0 10px 10px 0;
+}
+
+.aero-table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.45);
 }
 
 .aero-th-pill {
     background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 100%);
     border: 1px solid rgba(255,255,255,0.8);
     border-radius: 20px;
-    box-shadow: 
+    box-shadow:
         inset 0 2px 3px rgba(255,255,255,1),
         0 2px 4px rgba(0,0,0,0.05);
     display: inline-block;
     padding: 6px 18px;
     font-weight: 700;
     text-shadow: 0 1px 1px #fff;
+    white-space: nowrap;
 }
 
 .aero-check {

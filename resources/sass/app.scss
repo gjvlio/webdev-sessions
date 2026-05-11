@@ -9,3 +9,18 @@
 
 // Bootstrap icons
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// Frutiger Aero glass effect for nav and footer
+.aero-nav,
+.aero-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    background: rgba(200, 230, 255, 0.25) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 2px 20px rgba(100, 180, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
