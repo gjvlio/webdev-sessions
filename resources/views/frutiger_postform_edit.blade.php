@@ -6,7 +6,7 @@
     <div class="row mx-0 my-2 my-md-3 align-items-start justify-content-center gy-3 w-100">
 
         {{-- Form --}}
-        <div class="col-12 col-lg-4 aero-box mb-3 mb-lg-0 me-lg-3">
+        <div class="col-12 col-lg-8 aero-box mb-3 mb-lg-0 me-lg-3">
             <h1 class="title mb-3 text-center"><b>Post a thought...</b></h1>
             <p><i>What are you thinking right now? Share it to the community!</i></p>
                 @if($errors -> any())
@@ -16,25 +16,28 @@
                         </div>
                     @endforeach
                 @endif
-            <form class="aero-form text-start" method="POST" action="{{route('addPost')}}">
+            <form class="aero-form text-start" method="POST" action="{{route('editSubmit', $post->id) }}">
             @csrf
 
                 <div class="mb-3">
                     <i class="bi bi-cursor-text"></i>
                     <label for="text" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Title:</label>
-                    <input type="text" class="form-control aero-input" id="email" placeholder="Start with a punch!" name="post_title">
+                    <input type="text" class="form-control aero-input" id="email" placeholder="Start with a punch!" name="post_title" value=" {{ $post->title }} ">
                 </div>
                 <div class="mb-3">
                     <i class="bi bi-chat-quote-fill"></i>
                     <label for="textarea" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Description:</label>
-                    <textarea class="form-control aero-input" id="description" placeholder="Erm... I think I really love green" name="post_description" rows="5" style="resize: vertical;"></textarea>
+                    <textarea class="form-control aero-input" id="description" placeholder="Erm... I think I really love green" name="post_description" rows="5" style="resize: vertical;">{{ $post->description }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label fw-bold" style="color: #1a4d66; text-shadow: 0 1px 1px rgba(255,255,255,0.8);">Status:</label>
                     <select class="form-control aero-input" name="status">
-                        <option value=""></option>
                         @foreach ($statuses as $status)
-                            <option value="{{ $status->id }}"> {{ $status->display_name }}</option>
+                            @if($post->status == $status->id)
+                                <option value="{{ $status->id }}" selected>{{ $status->display_name }}</option>
+                            @else
+                                <option value="{{ $status->id }}">{{ $status->display_name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -43,39 +46,6 @@
                     <a href="#" class="aero-link">Need help?</a>
                 </div>
             </form>
-        </div>
-        <div class="col-12 col-lg-7 aero-box ms-lg-3">
-            <h2 class="title mb-3 text-center"><b>Community Posts</b></h2>
-            <div class="table-responsive">
-                <table class="table aero-table w-100">
-                    <thead>
-                        <tr>
-                            <th><span class="aero-th-pill">Title</span></th>
-                            <th><span class="aero-th-pill">Description</span></th>
-                            <th><span class="aero-th-pill">Created By</span></th>
-                            <th><span class="aero-th-pill">Status</span></th>
-                            <th><span class="aero-th-pill">Created Date</span></th>
-                            <th><span class="aero-th-pill">Action</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($posts as $post)
-                        <tr>
-                            <td>{{ $post->title }}</td>
-                            <td>{{ $post->description }}</td>
-                            <td>{{ $post->created_by }}</td>
-                            <td>{{ $post->status_display_name }}</td>
-                            <td>{{ $post->created_at}}</td>
-                            <td> 
-                                @if($post->status_name != 'published')
-                                    <a href="{{ route('editForm', $post->id) }}" class = "bi bi-pencil-square"></a>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 </div>

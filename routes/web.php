@@ -6,7 +6,8 @@ use App\Http\Controllers\CalculateController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FallbackController;
-use App\Http\Controllers\FrutigerController;
+use App\Http\Controllers\FrutigerRegisterController;
+use App\Http\Controllers\FrutigerPostController;
 use App\Http\Controllers\PlaygroundController;
 
 Route::get('/', function () {
@@ -41,12 +42,21 @@ Route::get('calculate/{num1}/{num2}', [CalculateController::class, 'index'])->na
 // -------------------- FRUTIGER -------------------------
 
 Route::group(['prefix' => 'frutiger'], function(){
-    
-    Route::get('/', [FrutigerController::class, 'displayFrutiger'])->name('displayMain');
-    Route::get('register', [FrutigerController::class, 'displayRegister'])->name('displayRegister');
-    Route::post('registerUser', [FrutigerController::class, 'addUser'])->name('addUser');
-    Route::get('post', [FrutigerController::class, 'displayPost'])->name('displayPost');
-    Route::post('addPost', [FrutigerController:: class, 'addPost'])->name('addPost');
+
+    Route::get('/', [FrutigerRegisterController::class, 'displayFrutiger'])->name('displayMain');
+    Route::get('register', [FrutigerRegisterController::class, 'displayRegister'])->name('displayRegister');
+    Route::post('registerUser', [FrutigerRegisterController::class, 'addUser'])->name('addUser');
+
+});
+
+Route::group(['prefix' => 'frutiger'], function(){
+
+    Route::get('post', [FrutigerPostController::class, 'displayPost'])->name('displayPost');
+    Route::post('addPost', [FrutigerPostController::class, 'addPost'])->name('addPost');
+
+    Route::get('edit/{id}', [FrutigerPostController::class, 'editForm'])->name('editForm');
+    Route::post('edit/{id}', [FrutigerPostController::class, 'editSubmit'])->name('editSubmit');
+
 
 });
 
