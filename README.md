@@ -17,6 +17,7 @@ This repository is a progressive web development learning project built on **Lar
 | 7 | FTF (Apr 29) | Form Validation, MySQL Setup, DB Connection |
 | 8 | Activity #1 (Finals) | DB Read with `DB::table`, POST Form, Laravel Logging |
 | 9 | Activity #2 (Finals) | Full CRUD — Create, Read, Update with FK Join |
+| 10 | Activity #3 (Finals) | Delete Post & Search/Filter with LIKE Query |
 
 ---
 
@@ -533,6 +534,88 @@ public function editSubmit(Request $request, $id) {
 
 ---
 
+### 10. Delete Post & Search/Filter with LIKE Query
+**Session 10 — Activity #3 (Finals)**
+
+Completed full CRUD by adding Delete, and introduced server-side search filtering via SQL `LIKE` query.
+
+#### Delete Post
+```php
+// FrutigerPostController.php — deletePost()
+public function deletePost($id){
+    DB::table('posts')->where('id', $id)->delete();
+    return redirect()->route('displayPost');
+}
+```
+
+```blade
+{{-- frutiger_postform.blade.php — delete button in Action column --}}
+@if($post->status_name != 'published')
+    <form action="{{ route('deletePost', $post->id) }}" method='post' class="d-inline m-0 p-0">
+        @csrf
+        @method('delete')   {{-- spoofs DELETE method — HTML only supports GET/POST --}}
+        <button type="submit" class="bi bi-trash3-fill border-0 bg-transparent">
+        </button>
+    </form>
+@endif
+```
+
+```php
+// routes/web.php
+Route::delete('delete/{id}', [FrutigerPostController::class, 'deletePost'])->name('deletePost');
+```
+
+#### Search Posts
+```php
+// FrutigerPostController.php — searchPosts()
+public function searchPosts(Request $request){
+    $term = trim($request->input('q', ''));
+
+    if ($term === '') {
+        return $this->displayPost();    // empty query = show all
+    }
+
+    $posts = DB::table('posts')
+        ->leftJoin('statuses', 'posts.status', '=', 'statuses.id')
+        ->select('posts.*', 'statuses.display_name as status_display_name', 'statuses.name as status_name')
+        ->where(function($query) use ($term) {
+            $query->where('posts.title', 'like', "%{$term}%")
+                  ->orWhere('posts.description', 'like', "%{$term}%");
+        })
+        ->get();
+
+    $statuses = DB::table('statuses')->get();
+    return view('frutiger_postform', compact('posts', 'statuses'));
+}
+```
+
+```blade
+{{-- Search form above community table --}}
+<form method="GET" action="{{ route('searchPosts') }}" class="d-flex gap-2">
+    <input name="q" type="text" class="form-control aero-input"
+           placeholder="Search..." value="{{ request('q') }}">  {{-- persists term --}}
+    <button class="btn aero-btn" type="submit">Search</button>
+</form>
+```
+
+```php
+// routes/web.php
+Route::get('search/', [FrutigerPostController::class, 'searchPosts'])->name('searchPosts');
+```
+
+**Key concepts:**
+- `DB::table()->where('id', $id)->delete()` — DELETE query via Query Builder
+- `@method('delete')` — Blade directive that spoofs HTTP DELETE (HTML forms only support GET/POST)
+- `Route::delete()` — registers a DELETE HTTP method route
+- `$request->input('key', 'default')` — reads query param with fallback default
+- `where('col', 'like', "%{$term}%")` — SQL LIKE for partial string match
+- `orWhere()` — OR condition chaining on Query Builder
+- `use ($term)` — PHP closure capture, passes outer variable into anonymous function scope
+- `request('q')` — Blade/Laravel helper to read current request query param (persists search term in input)
+- `trim()` — strips whitespace from search input to avoid blank-space queries
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -564,7 +647,9 @@ GET  /frutiger/register         → FrutigerRegisterController@displayRegister
 POST /frutiger/registerUser     → FrutigerRegisterController@addUser
 GET  /frutiger/post             → FrutigerPostController@displayPost
 POST /frutiger/addPost          → FrutigerPostController@addPost
-GET  /frutiger/edit/{id}        → FrutigerPostController@editForm
-POST /frutiger/edit/{id}        → FrutigerPostController@editSubmit
-*    (fallback)                 → FallbackController@displayErrorImage
+GET    /frutiger/edit/{id}      → FrutigerPostController@editForm
+POST   /frutiger/edit/{id}      → FrutigerPostController@editSubmit
+DELETE /frutiger/delete/{id}    → FrutigerPostController@deletePost
+GET    /frutiger/search         → FrutigerPostController@searchPosts
+*      (fallback)               → FallbackController@displayErrorImage
 ```
