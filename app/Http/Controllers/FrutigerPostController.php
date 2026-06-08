@@ -74,4 +74,33 @@ class FrutigerPostController extends Controller
 
         return redirect()->route('displayPost');
     }
+
+    public function deletePost($id){
+        DB::table('posts')
+            ->where('id', $id)
+            ->delete();
+        
+        return redirect()->route('displayPost');
+    }
+
+    public function searchPosts(Request $request){
+        $term = trim($request->input('q', ''));
+
+        if ($term === '') {
+            return $this->displayPost();
+        }
+
+        $posts = DB::table('posts')
+                 ->leftJoin('statuses', 'posts.status', '=', 'statuses.id')
+                 ->select('posts.*', 'statuses.display_name as status_display_name', 'statuses.name as status_name')
+                 ->where(function($query) use ($term) {
+                     $query->where('posts.title', 'like', "%{$term}%")
+                           ->orWhere('posts.description', 'like', "%{$term}%");
+                 })
+                 ->get();
+
+        $statuses = DB::table('statuses')->get();
+        return view('frutiger_postform', compact('posts', 'statuses'));
+    }
+
 }

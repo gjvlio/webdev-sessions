@@ -56,7 +56,9 @@ Route::group(['prefix' => 'frutiger'], function(){
 
     Route::get('edit/{id}', [FrutigerPostController::class, 'editForm'])->name('editForm');
     Route::post('edit/{id}', [FrutigerPostController::class, 'editSubmit'])->name('editSubmit');
+    Route::delete('delete/{id}', [FrutigerPostController::class, 'deletePost'])->name('deletePost');
 
+    Route::get('search/', [FrutigerPostController::class, 'searchPosts'])->name('searchPosts');
 
 });
 

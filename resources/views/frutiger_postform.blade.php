@@ -47,6 +47,15 @@
         <div class="col-12 col-lg-7 aero-box ms-lg-3">
             <h2 class="title mb-3 text-center"><b>Community Posts</b></h2>
             <div class="table-responsive">
+                <div class="mb-3">
+                    <form method="GET" action="{{route('searchPosts')}}" class="d-flex gap-2 align-items-center">
+                        <div class="position-relative" style="flex:1;">
+                            <i class="bi bi-search position-absolute" style="left:12px; top:50%; transform:translateY(-50%); color:#1a4d66; pointer-events:none;" aria-hidden="true"></i>
+                            <input name="q" type="text" class="form-control aero-input ps-4" placeholder="    Search..." value="{{ request('q') }}">
+                        </div>
+                        <button class="btn aero-btn" type="submit">Search</button>
+                    </form>
+                </div>
                 <table class="table aero-table w-100">
                     <thead>
                         <tr>
@@ -55,6 +64,7 @@
                             <th><span class="aero-th-pill">Created By</span></th>
                             <th><span class="aero-th-pill">Status</span></th>
                             <th><span class="aero-th-pill">Created Date</span></th>
+                            <th><span class="aero-th-pill">Updated At</span></th>
                             <th><span class="aero-th-pill">Action</span></th>
                         </tr>
                     </thead>
@@ -65,10 +75,16 @@
                             <td>{{ $post->description }}</td>
                             <td>{{ $post->created_by }}</td>
                             <td>{{ $post->status_display_name }}</td>
-                            <td>{{ $post->created_at}}</td>
-                            <td> 
+                            <td>{{ $post->created_at }}</td>
+                            <td>{{ $post->updated_at }}</td>
+                            <td class="d-flex gap-2 text-center"> 
                                 @if($post->status_name != 'published')
                                     <a href="{{ route('editForm', $post->id) }}" class = "bi bi-pencil-square"></a>
+                                    <form action="{{ route('deletePost', $post->id) }}" method='post' class="d-inline m-0 p-0">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="bi bi-trash3-fill border-0 bg-transparent p-0 m-0 text-primary"></button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>
@@ -354,6 +370,7 @@ body {
         padding: 8px 10px;
     }
 }
+
 </style>
 
 @endsection
